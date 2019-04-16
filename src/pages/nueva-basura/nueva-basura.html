@@ -1,0 +1,61 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title>nuevaBasura</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <h1>Nueva Basura</h1>
+
+    <form [formGroup]="myForm" (ngSubmit)="saveData()">
+        <ion-list>
+            <ion-item>
+                <ion-label stacked>Zona</ion-label>
+                <ion-select formControlName="zona" interface="action-sheet">
+                    <ion-option *ngFor="let zona of zonas" [value]="zona.nombre + ' - ' + zona.area">{{zona.nombre}} - {{zona.area}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Nombre:</ion-label>
+                <ion-select formControlName="nombre" interface="action-sheet">
+                    <ion-option *ngFor="let basura of basuras" [value]="basura.nombre">{{basura.nombre}}</ion-option>
+                </ion-select>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Código Contenedor: <small>*Iniciales zona y contenedor - numero repetición Ej: ACCRSU - 2</small></ion-label>
+                <ion-input formControlName="codigoContenedor" type="text"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Número Contenedor:</ion-label>
+                <ion-input formControlName="numeroContenedor" type="number"></ion-input>
+            </ion-item>
+            <ion-row>
+                <ion-col>
+                    <ion-slides slidesPerView=3>
+                        <ion-slide *ngFor="let basura of basuras">
+                            <ion-img class="pick-avatar" (click)="seleccionarIcono( basura )" src="/assets/icon/contenedores/{{ basura.imgContenedor }}" [ngClass]="{ 'pick-avatar-seleccionado': basura.seleccionado }"></ion-img>
+                            <p text-wrap> {{ basura.nombre }} </p>
+                        </ion-slide>
+                    </ion-slides>
+                </ion-col>
+            </ion-row>
+            <!-- <ion-item>
+                <button ion-button (click)="subirImagen()" [disabled]="!myForm.valid">
+                    <ion-icon name="camera">&nbsp; Imagen Contenedor</ion-icon>
+                </button>
+            </ion-item> -->
+            <ion-avatar item-start *ngFor="let img of imagenPreview" class="imgPreview">
+                <img [src]="img" formControlName="imgContenedor">
+            </ion-avatar>
+
+        </ion-list>
+        <div padding>
+            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>
+        </div>
+    </form>
+
+</ion-content>

@@ -1,0 +1,38 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>{{ basura.nombre }} - {{ basura.codigoContenedor }}</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-list>
+        <ion-item>
+            <!--  *ngFor="let basura of basuras" -->
+            <ion-thumbnail item-start class="thumbnailGrande">
+                <img [src]="basura.img | imagenDetalle">
+            </ion-thumbnail>
+            <h2><b> {{ basura.nombre }} </b></h2>
+            <h2> {{ basura.zona }} </h2>
+            <h3 *ngIf="basura.calificacion"> Calificación: {{ basura.calificacion }} </h3>
+            <h4 *ngIf="basura.residuo"> Residuo: {{ basura.residuo }} % </h4>
+            <h4 *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
+            <p *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
+            <p *ngIf="basura.fecha"> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
+        </ion-item>
+    </ion-list>
+
+    <button ion-button block (click)="calificar()">
+            Calificar
+    </button>
+    <ion-fab right>
+        <button ion-fab (click)="verEjemplos()" color="secondary">
+            Ejemplos
+        </button>
+    </ion-fab>
+
+
+</ion-content>

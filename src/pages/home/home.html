@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <ion-title>
+            Gestión Resíduos
+        </ion-title>
+
+        <ion-buttons end>
+            <button ion-button (click)="nueva_basura()">
+                          Nueva Basura
+                        </button>
+        </ion-buttons>
+
+        <ion-buttons end>
+            <button ion-button (click)="cerrar_sesion()">
+                      Cerrar Sesión
+                    </button>
+        </ion-buttons>
+    </ion-navbar>
+
+
+    <ion-card>
+        <ion-card-content class="img-flamenco">
+            <img src="../../assets/imgs/flamenco8.jpg" class="slide-image" />
+        </ion-card-content>
+    </ion-card>
+</ion-header>
+
+
+
+<ion-content text-center>
+
+    <ion-card class="fondo-fabrica">
+        <ion-card-content class="contenido no-padding">
+            <ion-grid>
+                <ion-list>
+
+                    <ion-item *ngFor="let zona of zonas" (click)='irZona(zona)' class="transparente">
+                        <ion-row>
+                            <ion-col col-2 col-sm-2 col-md-1 col-lg-1 col-xl-1>
+                                <ion-avatar item-left>
+                                    <img src="../../assets/imgs/zone-icon.svg">
+                                </ion-avatar>
+                            </ion-col>
+                            <ion-col col-10 col-sm-10 col-md-11 col-lg-11 col-xl-11 text-wrap>
+                                <h3>
+                                    {{ zona.nombre }}
+                                </h3>
+                                <p>
+                                    {{ zona.area }}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                        <hr>
+                    </ion-item>
+                </ion-list>
+
+            </ion-grid>
+
+        </ion-card-content>
+
+    </ion-card>
+
+</ion-content>
