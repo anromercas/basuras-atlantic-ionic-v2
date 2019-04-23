@@ -7,6 +7,7 @@ import { CalificaPage } from '../index.paginas';
 import { BasuraProvider } from '../../providers/basura/basura';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { LoginPage } from '../login/login';
+import { UiProvider } from '../../providers/ui/ui';
 
 @Component({
   selector: 'page-zona',
@@ -22,7 +23,8 @@ export class ZonaPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public _usuarioProv: UsuarioProvider,
-              public _basuraProv:BasuraProvider) {
+              public _basuraProv:BasuraProvider,              
+              public uiProv: UiProvider) {
     this.zona = this.navParams.get("zona");
      
   }
@@ -34,18 +36,18 @@ export class ZonaPage {
       this.basuras = basuras.basuras;
       this.mostrarBasuras();
     }, (err) => {
-      console.log(err);
-      this.navCtrl.setRoot(LoginPage);
-      this.cerrar_sesion();
+      this.uiProv.alertaInformativa('Sesión Caducada', 'La sesión ha caducado, debe iniciar sesión de nuevo.');
+      this.navCtrl.setRoot(LoginPage, {}, {animate: true, animation: 'wp-transition'});
+      this._usuarioProv.borrarStorage();
     });
   }
 
   irBasura( basura: Basura ){
-    this.navCtrl.push( BasuraPage, { 'basura': basura } );
+    this.navCtrl.push( BasuraPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
   }
 
   calificar( basura: Basura ) {
-    this.navCtrl.push( CalificaPage, { 'basura': basura } );
+    this.navCtrl.push( CalificaPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
   }
 
   rellenarHistoricoBasura(){
@@ -53,7 +55,6 @@ export class ZonaPage {
       
     })
   }
-
 
   // rellenar el array con la zona pulsada para que se puedan listar los contenedores de esa zona
   mostrarBasuras(){
@@ -67,8 +68,7 @@ export class ZonaPage {
 
   cerrar_sesion(){
     this._usuarioProv.borrarStorage();
-    this.navCtrl.push(LoginPage);
-    this.navCtrl.remove(0);
+    this.navCtrl.setRoot(LoginPage);
   }
 
 }

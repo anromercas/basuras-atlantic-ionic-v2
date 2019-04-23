@@ -5,6 +5,8 @@ export { LoginPage } from './login/login';
 export { BasuraPage } from './basura/basura';
 export { EjemplosPage } from './ejemplos/ejemplos';
 export { NuevaBasuraPage } from './nueva-basura/nueva-basura';
+export { ImagenModalPage } from './imagen-modal/imagen-modal';
+
 
 
 

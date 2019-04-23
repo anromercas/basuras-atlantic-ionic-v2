@@ -1,0 +1,20 @@
+<ion-header>
+
+
+    <ion-navbar>
+        <ion-buttons end>
+            <button color="danger" ion-button (click)="cerrarModal()"> Cerrar &nbsp; <ion-icon name="exit"></ion-icon></button>
+        </ion-buttons>
+        <ion-title>Detalle</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+    <ion-avatar item-start>
+        <img [src]="basura.img | imagenDetalle:'basuras'">
+    </ion-avatar>
+
+</ion-content>

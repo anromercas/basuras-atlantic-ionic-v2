@@ -18,7 +18,8 @@ import {  HomePage,
   BasuraPage,
   CalificaPage,
   EjemplosPage,
-  NuevaBasuraPage } from '../pages/index.paginas';
+  NuevaBasuraPage,
+  ImagenModalPage } from '../pages/index.paginas';
   
   // servicios
   import { UsuarioProvider } from '../providers/usuario/usuario';
@@ -37,6 +38,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { LOCALE_ID } from '@angular/core';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import { UiProvider } from '../providers/ui/ui';
 // import { InterceptorProvider } from '../providers/interceptor/interceptor';
 registerLocaleData(localeEs);
 
@@ -51,7 +53,8 @@ registerLocaleData(localeEs);
     BasuraPage,
     CalificaPage,
     EjemplosPage,
-    NuevaBasuraPage
+    NuevaBasuraPage,
+    ImagenModalPage
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ registerLocaleData(localeEs);
     BasuraPage,
     CalificaPage,
     EjemplosPage,
-    NuevaBasuraPage
+    NuevaBasuraPage,
+    ImagenModalPage
   ],
   providers: [
     StatusBar,
@@ -89,6 +93,7 @@ registerLocaleData(localeEs);
     CalificacionProvider,
     BasuraProvider,
     CargaArchivoProvider,
+    UiProvider,
   ]
 })
 export class AppModule {}

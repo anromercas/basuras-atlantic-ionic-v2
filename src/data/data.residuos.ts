@@ -54,13 +54,13 @@ export const RESIDUOS = [
         color: "",
       },
       {
-        nombre: 'Plástico/Envases Contaminados',
+        nombre: 'Plástico/envases Contaminados',
         img: './assets/residuos/plastico-envases-contaminados.png',
         seleccionado: false,
         color: "",
       },
       {
-        nombre: 'Plástico/Envases NO Contaminados',
+        nombre: 'Plástico/envases NO Contaminados',
         img: './assets/residuos/plastico-envases-NO-contaminados.png',
         seleccionado: false,
         color: "",

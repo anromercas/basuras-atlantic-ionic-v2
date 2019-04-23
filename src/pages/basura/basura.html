@@ -12,16 +12,16 @@
     <ion-list>
         <ion-item>
             <!--  *ngFor="let basura of basuras" -->
-            <ion-thumbnail item-start class="thumbnailGrande">
-                <img [src]="basura.img | imagenDetalle">
+            <ion-thumbnail item-start>
+                <img [src]="basura.img | imagenDetalle " (click)="verImg()">
             </ion-thumbnail>
-            <h2><b> {{ basura.nombre }} </b></h2>
-            <h2> {{ basura.zona }} </h2>
-            <h3 *ngIf="basura.calificacion"> Calificación: {{ basura.calificacion }} </h3>
-            <h4 *ngIf="basura.residuo"> Residuo: {{ basura.residuo }} % </h4>
-            <h4 *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
-            <p *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
-            <p *ngIf="basura.fecha"> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
+            <h2 text-wrap><b> {{ basura.nombre }} </b></h2>
+            <h2 text-wrap> {{ basura.zona }} </h2>
+            <h3 text-wrap *ngIf="basura.calificacion"> Calificación: {{ basura.calificacion }} </h3>
+            <h4 text-wrap *ngIf="basura.residuo"> Residuo: {{ basura.residuo }} % </h4>
+            <h4 text-wrap *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
+            <p text-wrap *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
+            <p text-wrap *ngIf="basura.fecha"> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
         </ion-item>
     </ion-list>
 

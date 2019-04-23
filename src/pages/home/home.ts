@@ -44,17 +44,17 @@ export class HomePage {
   }
 
   irZona( zona: Zona ) {
-    this.navCtrl.push( ZonaPage, { 'zona': zona } );
+    this.navCtrl.push( ZonaPage, { 'zona': zona }, {animate: true, animation: 'ios-transition'} ); // The property 'animation' understands the following values: md-transition, ios-transition and wp-transition.
   }
 
   cerrar_sesion(){
     this._usuarioProv.borrarStorage();
-    this.navCtrl.push(LoginPage);
+    this.navCtrl.push(LoginPage, {}, {animate: true, animation: 'wp-transition'});
     this.navCtrl.remove(0);
   }
 
   nueva_basura(){
-    this.navCtrl.push(NuevaBasuraPage);
+    this.navCtrl.push(NuevaBasuraPage, {}, {animate: true, animation: 'ios-transition'});
   }
 
 }

@@ -34,6 +34,8 @@ export class BasuraProvider {
 
     const options: FileUploadOptions = {
       fileKey: 'img',
+      httpMethod: 'put',
+      mimeType: 'image/jpeg',
       headers: {
         'token': this.usuarioProviver.token
       }
@@ -41,7 +43,7 @@ export class BasuraProvider {
 
     const fileTransfer: FileTransferObject = this.fileTransfer.create();
 
-    fileTransfer.upload( img, `${URL_SERVICIOS}/upload/${ tipo }/${ id }`, options )
+    fileTransfer.upload( img, `${URL_SERVICIOS}/upload/${tipo}/${id}`, options )
                 .then( data => {
                   console.log(data);
                 }).catch( err => {
@@ -56,7 +58,6 @@ export class BasuraProvider {
     const headers = new HttpHeaders({
       'token': this.usuarioProviver.token
     });
-    console.log(headers);
     let url = URL_SERVICIOS + '/basura/' + id;
     return this.http.get( url, {headers})
                     /* .map( (resp: any) => {

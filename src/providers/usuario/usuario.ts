@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Platform, ToastController } from 'ionic-angular';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { URL_SERVICIOS } from '../../config/config';
 
@@ -32,31 +32,31 @@ export class UsuarioProvider {
       password: password
     }
 
-    return this.http.post( url, usr )
-                    .map( (resp: any) => {
-                      console.log(resp);
-                      if( resp['ok'] ){
-                        this.usuario = resp.usuario;
-                        this.token = resp.token;
-                        this.guardarStorage();
-                      } else {
-                        this.token = null;
-                        this.storage.clear();
-                      }
-                      return resp;
-                    });
+    return new Promise ( resolve => {
+
+      this.http.post( url, usr )
+                      .subscribe( (resp: any) => {
+                        console.log(resp);
+                        if( resp['ok'] ){
+                          this.usuario = resp.usuario;
+                          this.token = resp.token;
+                          this.guardarStorage();
+                          resolve(true);
+                        } 
+                      }, (error:any) => {
+                          this.token = null;
+                          this.borrarStorage();
+                          resolve(false);
+                      });
+    });
     
   }
 
   renuevaToken(){
     let url = URL_SERVICIOS + '/login/renuevatoken';
-    const headers = new HttpHeaders({
-      'token': this.token
-    });
 
-    return this.http.get( url, { headers } )
+    return this.http.get( url )
                     .map( (resp: any) => {
-                      console.log('en renueva token' + resp);
                       this.token = resp.token;
                       this.guardarStorage();
 

@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { Basura } from '../../interfaces/basura.interface';
 import { CalificaPage } from '../califica/califica';
 import { EjemplosPage } from '../ejemplos/ejemplos';
 import { BasuraProvider } from '../../providers/basura/basura';
+import { ImagenModalPage } from '../imagen-modal/imagen-modal';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class BasuraPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              public _basuraProv: BasuraProvider) {
+              public _basuraProv: BasuraProvider,
+              public modalCtrl: ModalController) {
     this.basura = this.navParams.get("basura");
 
     this.mostrarBasuras();
@@ -37,7 +39,12 @@ export class BasuraPage {
 
   calificar() {
     this.navCtrl.push( CalificaPage, { 'basura': this.basura } );
-    
   }
 
+  verImg(){
+    console.log('holi');
+    let modal = this.modalCtrl.create(ImagenModalPage, {basura: this.basura});
+
+    modal.present();
+  }
 }

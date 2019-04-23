@@ -43,11 +43,6 @@
                     </ion-slides>
                 </ion-col>
             </ion-row>
-            <!-- <ion-item>
-                <button ion-button (click)="subirImagen()" [disabled]="!myForm.valid">
-                    <ion-icon name="camera">&nbsp; Imagen Contenedor</ion-icon>
-                </button>
-            </ion-item> -->
             <ion-avatar item-start *ngFor="let img of imagenPreview" class="imgPreview">
                 <img [src]="img" formControlName="imgContenedor">
             </ion-avatar>
