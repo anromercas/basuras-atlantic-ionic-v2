@@ -159,7 +159,7 @@ export class CalificaPage {
         nombre: this.basura.nombre,
         zona: this.basura.zona,
         numeroContenedor: this.basura.numeroContenedor,
-        codigoContenedor: this.basura.codigoContenedor,
+        codigoContenedor: this.basura.codigoContenedor.toUpperCase(),
         calificacion: this.calificacion,
         observaciones: this.observaciones,
         fecha: fecha,
@@ -192,7 +192,6 @@ export class CalificaPage {
                       .subscribe(res => {
                         console.log(res);
                         this.uiProv.alertaConTiempo('Guardado!','La calificación se ha guardado con éxito!', 2000);
-//                        this.uiProv.alertaInformativa('Guardado!','La calificación se ha guardado con éxito!');
                         this.navCtrl.pop();
                       });
     }
@@ -279,11 +278,8 @@ export class CalificaPage {
   // Si el contenedor es de EPIs el resíduo EPIs no aparece en la lista
   mostrarResiduos(){
     this.residuos.forEach((residuo:any, index) => {
-      
-      console.log(residuo.nombre);
      let nombreBasura = this.basura.nombre;
       if(nombreBasura.includes(residuo.nombre)){
-        console.log('hay basura');
         this.residuos.splice(index, 1);
       }
     });

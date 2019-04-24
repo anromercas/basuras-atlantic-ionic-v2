@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { ZONAS } from '../../data/data.zonas';
@@ -12,7 +12,6 @@ import { Basura } from '../../interfaces/basura.interface';
 import { UsuarioProvider } from '../../providers/usuario/usuario';
 import { UiProvider } from '../../providers/ui/ui';
 import { LoginPage } from '../login/login';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -20,6 +19,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   templateUrl: 'nueva-basura.html',
 })
 export class NuevaBasuraPage {
+
+  @ViewChild('codigoContenedor') codContenedor;
 
   myForm: FormGroup;
   zonas: Zona[] = [];
@@ -41,6 +42,9 @@ export class NuevaBasuraPage {
       this.myForm = this.createMyForm();
       this.zonas = ZONAS.slice(0);
       this.basuras = BASURAS.slice(0);
+
+      // seleccionar la primera opcion por defecto
+      this.imgContenedor = this.basuras[0].imgContenedor;
 
   }
 
@@ -82,18 +86,19 @@ export class NuevaBasuraPage {
       nombre: datos.nombre,
       zona: datos.zona,
       numeroContenedor: parseInt(datos.numeroContenedor),
-      codigoContenedor: datos.codigoContenedor,
+      codigoContenedor: datos.codigoContenedor.toString().toUpperCase(),
       imgContenedor: this.imgContenedor,
     };
+    console.log(basura);
     this._basuraProv.crearBasura(basura)
                         .subscribe(resp => {
-                          this.uiProv.mostrar_toast('Basura Guardada ' + basura.nombre);
+                          this.uiProv.mostrar_toast('Basura Guardada' + basura.nombre);
                           this.myForm.reset();
                           console.log(resp);
                         });
   }
 
-  private createMyForm(){
+  createMyForm(){
     return this.formBuilder.group({
       nombre: ['', Validators.required],
       codigoContenedor: ['', Validators.required],
