@@ -3,4 +3,5 @@ export interface Zona{
     area: string;
     imagen: string;
     id?:string;
+    siglas?:string;
 }

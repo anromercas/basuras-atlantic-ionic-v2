@@ -16,6 +16,7 @@ export class UsuarioProvider {
   clave:string;
   usuario: Usuario;
   token: string;
+  role: string;
 
   constructor(private http: HttpClient,
               private platform: Platform,
@@ -36,15 +37,16 @@ export class UsuarioProvider {
 
       this.http.post( url, usr )
                       .subscribe( (resp: any) => {
-                        console.log(resp);
                         if( resp['ok'] ){
                           this.usuario = resp.usuario;
+                          this.role = resp.usuario.role;
                           this.token = resp.token;
                           this.guardarStorage();
                           resolve(true);
                         } 
                       }, (error:any) => {
                           this.token = null;
+                          this.role = null;
                           this.borrarStorage();
                           resolve(false);
                       });
@@ -110,12 +112,5 @@ export class UsuarioProvider {
     })
   }
 
-  mostrar_toast( mensaje: string ){
-    const toast = this.toastCtrl.create({
-      message: mensaje,
-      duration: 3000
-    });
-    toast.present();
-  }
 
 }

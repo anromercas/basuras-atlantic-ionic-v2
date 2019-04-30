@@ -46,6 +46,15 @@ export class ZonaPage {
     this.navCtrl.push( BasuraPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
   }
 
+  borrarBasura(basura: Basura){
+    this._basuraProv.borrarBasura(basura._id)
+                    .subscribe( resp => {
+                      console.log(resp);
+                      this.uiProv.alertaConTiempo('Basura Borrada', 'La Basura se ha eliminado con éxito');
+                      
+                    });
+  }
+
   calificar( basura: Basura ) {
     this.navCtrl.push( CalificaPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
   }

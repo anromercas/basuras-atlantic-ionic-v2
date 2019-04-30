@@ -14,8 +14,8 @@ import { UiProvider } from '../../providers/ui/ui';
 export class LoginPage {
 
  loginUser = {
-   email: 'nuria@mail.com',
-   password: '1234'
+   email: '',
+   password: ''
  }
 
   constructor(public navCtrl: NavController, 

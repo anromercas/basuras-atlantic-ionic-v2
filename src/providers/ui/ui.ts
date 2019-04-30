@@ -20,7 +20,7 @@ export class UiProvider {
     alert.present();
   }
 
-  alertaConTiempo(titulo: string, subtitulo: string, tiempo: number) {
+  alertaConTiempo(titulo: string, subtitulo: string, tiempo: number = 2000) { 
     const alert = this.alertCtrl.create({
       title: titulo ,
       subTitle: subtitulo,

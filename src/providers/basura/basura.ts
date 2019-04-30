@@ -90,11 +90,16 @@ export class BasuraProvider {
     return this.http.get( url, {headers} );    
   }
 
-  // ??????????????????????
- // No recuerdo para que lo uso, si no para borrarlo
- // ??????????????????????
-  recargarBasuras(){
-    
+  // Borra una basura
+  borrarBasura(id: string){
+    const headers = new HttpHeaders({
+      'token': this.usuarioProviver.token
+    });
+    let url = URL_SERVICIOS + '/basura/' + id; 
+    return this.http.delete( url, {headers})
+                    .map( (resp: any) =>{
+                        return resp;
+                    });
   }
 
   // Crea un registro de historico de una basura

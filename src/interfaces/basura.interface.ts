@@ -13,4 +13,5 @@ export interface Basura {
     estado?:string;
     _id?: string;
     usuario?: string;
+    
 }

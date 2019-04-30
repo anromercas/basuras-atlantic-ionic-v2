@@ -15,27 +15,27 @@
         <ion-list>
             <ion-item>
                 <ion-label stacked>Zona</ion-label>
-                <ion-select formControlName="zona" interface="action-sheet">
+                <ion-select formControlName="zona" interface="action-sheet" (ionChange)="siglasZona($event)">
                     <ion-option *ngFor="let zona of zonas" [value]="zona.nombre + ' - ' + zona.area">{{zona.nombre}} - {{zona.area}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label stacked>Nombre:</ion-label>
-                <ion-select formControlName="nombre" interface="action-sheet">
+                <ion-select formControlName="nombre" interface="action-sheet" (ionChange)="siglasBasura($event)">
                     <ion-option *ngFor="let basura of basuras" [value]="basura.nombre">{{basura.nombre}}</ion-option>
                 </ion-select>
             </ion-item>
             <ion-item>
                 <ion-label stacked>Código Contenedor: <small>*Iniciales zona y contenedor - numero repetición Ej: ACCRSU - 2</small></ion-label>
-                <ion-input formControlName="codigoContenedor" type="text"></ion-input>
+                <ion-input formControlName="codigoContenedor" [(ngModel)]="codCont" type="text"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label stacked>Número Contenedor:</ion-label>
-                <ion-input formControlName="numeroContenedor" type="number"></ion-input>
+                <ion-input formControlName="numeroContenedor" type="number" [(ngModel)]="numCont"></ion-input>
             </ion-item>
             <ion-row>
                 <ion-col>
-                    <ion-slides slidesPerView=3>
+                    <ion-slides slidesPerView=4>
                         <ion-slide *ngFor="let basura of basuras">
                             <ion-img class="pick-avatar" (click)="seleccionarIcono( basura )" src="/assets/icon/contenedores/{{ basura.imgContenedor }}" [ngClass]="{ 'pick-avatar-seleccionado': basura.seleccionado }"></ion-img>
                             <p text-wrap> {{ basura.nombre }} </p>

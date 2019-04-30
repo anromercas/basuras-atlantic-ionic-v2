@@ -19,28 +19,29 @@ export class HomePage {
 
   zonas: Zona[] = [];
   orientation: string;
+  admin: boolean = false;
 
   constructor( public navCtrl: NavController,
                 public _usuarioProv: UsuarioProvider,
                 private appCtrl: App,
                 private screenOrientation: ScreenOrientation ) {
 
-/*                   this.events.subscribe('http:forbidden', error => {
-                    this.navCtrl.push(LoginPage, {errorMessage: error});
-                  }); */
+    this.orientation = this.screenOrientation.type;
+    this.screenOrientation.onChange().subscribe(
+        ()=>{
+        this.orientation = this.screenOrientation.type;
+        if(this.navCtrl.getActive().component === HomePage){
+            this.appCtrl.getRootNav().setRoot(HomePage);
+        }
+        });
 
-                  this.orientation = this.screenOrientation.type;
-                      this.screenOrientation.onChange().subscribe(
-                        ()=>{
-                          this.orientation = this.screenOrientation.type;
-                         if(this.navCtrl.getActive().component === HomePage){
-                           this.appCtrl.getRootNav().setRoot(HomePage);
-                         }
-                        }
-                      )
+	this.zonas = ZONAS.slice(0);
 
-    this.zonas = ZONAS.slice(0);
-
+	if(_usuarioProv.role == 'ADMIN_ROLE'){
+		this.admin = true;
+	} else {
+		this.admin = false;
+	}
   }
 
   irZona( zona: Zona ) {

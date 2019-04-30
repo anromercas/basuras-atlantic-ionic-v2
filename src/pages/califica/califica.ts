@@ -188,12 +188,16 @@ export class CalificaPage {
           residuo.seleccionado = false;
         }
       });
+
+      // Actualiza la basura
       this._basuraProv.actualizarBasura(this.basura._id, this.obtenerDatosBasura())
                       .subscribe(res => {
                         console.log(res);
                         this.uiProv.alertaConTiempo('Guardado!','La calificación se ha guardado con éxito!', 2000);
                         this.navCtrl.pop();
                       });
+      // Crea un registro en historico
+      this._basuraProv.crearHistorico(this.basura);
     }
   }
 

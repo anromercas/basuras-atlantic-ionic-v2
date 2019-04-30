@@ -22,6 +22,7 @@
                 <img src="/assets/icon/contenedores/{{ basura.imgContenedor }}">
             </ion-thumbnail>
             <h2 (click)="calificar(basura)" text-wrap>{{ basura.numeroContenedor }}. {{ basura.nombre }} <small>( {{ basura.codigoContenedor }} )</small> </h2>
+            <ion-icon color="danger" item-end *ngIf="_usuarioProv.role == 'ADMIN_ROLE'" name="trash" (click)="borrarBasura(basura)"></ion-icon>
             <ion-icon item-end name="eye" (click)="irBasura(basura)"></ion-icon>
             <!-- <button ion-button item-end [disabled]="!basura.img" (click)="irBasura(basura)"><ion-icon item-end name="eye"></ion-icon></button> -->
         </ion-item>

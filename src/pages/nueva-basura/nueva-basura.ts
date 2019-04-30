@@ -28,6 +28,8 @@ export class NuevaBasuraPage {
   codigoContenedor: string;
 
   imgContenedor: string;
+  codCont: string = '';
+  numCont: number = 1;
 
   imagenPreview: any;
   imagen64: string;
@@ -52,7 +54,6 @@ export class NuevaBasuraPage {
     
     this._basuraProv.listarBasuras()
     .subscribe((basuras: any) =>{      
-     console.log(basuras);
     }, (err) => {
       this._usuarioProv.renuevaToken()
                       .subscribe( resp => {
@@ -68,9 +69,38 @@ export class NuevaBasuraPage {
     });
   }
 
+  createMyForm(){
+    return this.formBuilder.group({
+      nombre: ['', Validators.required],
+      codigoContenedor: [this.codCont.toUpperCase(), Validators.required],
+      numeroContenedor: ['', Validators.required],
+      zona: ['', Validators.required]
+    });
+  }
+
+  siglasZona( evento: EventListener ){
+    this.zonas.forEach( zona => {
+      if(zona.nombre + ' - ' + zona.area === evento.toString()){
+        if(!this.codCont){
+          this.codCont += zona.siglas;
+        } else {
+          this.codCont = '';
+          this.codCont += zona.siglas;
+        }
+      }
+    })
+  }
+
+  siglasBasura( evento: EventListener ){
+    this.basuras.forEach( basura => {
+      if(basura.nombre === evento.toString()){
+          this.codCont += basura.siglas;
+      }
+    })
+  }
+
   seleccionarIcono( basura ) {
     this.basuras.forEach( img => img.seleccionado = false );
-
     this.imgContenedor = basura.imgContenedor;
 
     basura.seleccionado = true;
@@ -78,9 +108,8 @@ export class NuevaBasuraPage {
 
 
   saveData(){
-    console.log(this.myForm.value);
-
     let datos = this.myForm.value;
+    let numContInt = this.numCont;
 
     let basura: Basura = {
       nombre: datos.nombre,
@@ -89,22 +118,14 @@ export class NuevaBasuraPage {
       codigoContenedor: datos.codigoContenedor.toString().toUpperCase(),
       imgContenedor: this.imgContenedor,
     };
-    console.log(basura);
     this._basuraProv.crearBasura(basura)
                         .subscribe(resp => {
                           this.uiProv.mostrar_toast('Basura Guardada' + basura.nombre);
                           this.myForm.reset();
-                          console.log(resp);
+                          this.codCont = '';
+                          this.numCont = numContInt;
+                          this.numCont++;
                         });
-  }
-
-  createMyForm(){
-    return this.formBuilder.group({
-      nombre: ['', Validators.required],
-      codigoContenedor: ['', Validators.required],
-      numeroContenedor: ['', Validators.required],
-      zona: ['', Validators.required]
-    });
   }
 
   cerrar_sesion(){
