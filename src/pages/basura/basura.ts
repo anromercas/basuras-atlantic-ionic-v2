@@ -27,9 +27,10 @@ export class BasuraPage {
   }
 
   mostrarBasuras(){
-    this._basuraProv.obtenerBasura(this.basura._id)
+    this._basuraProv.obtenerHistoricoBasura(this.basura.codigoContenedor)
                 .subscribe( (resp:any) => {
-                  this.basura = resp.basura;
+                  console.log(resp);
+                    this.basuras = resp.historico;
                 });
   }
 
@@ -41,9 +42,8 @@ export class BasuraPage {
     this.navCtrl.push( CalificaPage, { 'basura': this.basura } );
   }
 
-  verImg(){
-    console.log('holi');
-    let modal = this.modalCtrl.create(ImagenModalPage, {basura: this.basura});
+  verImg(basura: Basura){
+    let modal = this.modalCtrl.create(ImagenModalPage, {basura: basura});
 
     modal.present();
   }

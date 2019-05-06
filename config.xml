@@ -89,4 +89,5 @@
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="your usage message" />
     </plugin>
     <plugin name="cordova-plugin-file-transfer" spec="1.7.1" />
+    <engine name="android" spec="7.1.4" />
 </widget>

@@ -8,12 +8,15 @@
 
 
 <ion-content>
+    <button ion-button block (click)="calificar()">
+                Calificar
+        </button>
 
     <ion-list>
-        <ion-item>
+        <ion-item *ngFor="let basura of basuras">
             <!--  *ngFor="let basura of basuras" -->
             <ion-thumbnail item-start>
-                <img [src]="basura.img | imagenDetalle " (click)="verImg()">
+                <img [src]="basura.img | imagenDetalle " (click)="verImg(basura)">
             </ion-thumbnail>
             <h2 text-wrap><b> {{ basura.nombre }} </b></h2>
             <h2 text-wrap> {{ basura.zona }} </h2>
@@ -25,9 +28,7 @@
         </ion-item>
     </ion-list>
 
-    <button ion-button block (click)="calificar()">
-            Calificar
-    </button>
+
     <ion-fab right>
         <button ion-fab (click)="verEjemplos()" color="secondary">
             Ejemplos

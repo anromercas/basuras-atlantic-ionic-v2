@@ -57,7 +57,8 @@
         </ion-row>
 
         <h2>
-            Observaciones <button ion-button type="submit" (click)="camara('imgDetalle')"><ion-icon name="camera">&nbsp; Foto Detalle</ion-icon> </button>
+            Observaciones <button ion-button type="submit" *ngIf="nativo" (click)="camara('imgDetalle')"><ion-icon name="camera">&nbsp; Foto Detalle</ion-icon> </button>
+            <button ion-button type="submit" *ngIf="!nativo" (click)="subirImg('imgDetalle')"><ion-icon name="camera">&nbsp; Foto Detalle</ion-icon> </button>
             <ion-thumbnail item-end *ngIf="imagenPreviewDetalle">
                 <img [src]="imagenPreviewDetalle">
             </ion-thumbnail>
@@ -75,8 +76,13 @@
         </button>
 
 
-        <ion-fab right>
+        <ion-fab right *ngIf="nativo">
             <button ion-fab (click)="camara('img')" color="secondary">
+            <ion-icon name="camera"></ion-icon>
+        </button>
+        </ion-fab>
+        <ion-fab right *ngIf="!nativo">
+            <button ion-fab (click)="subirImg('img')" color="secondary">
             <ion-icon name="camera"></ion-icon>
         </button>
         </ion-fab>

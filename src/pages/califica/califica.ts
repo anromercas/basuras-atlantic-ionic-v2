@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
 
 // DATA
 import { CALIFICACIONES } from '../../data/data.calificaciones';
@@ -44,6 +44,7 @@ export class CalificaPage {
   colorFondo = "";
   fechaHoy = Date();
   imagenNueva = false;
+  nativo: boolean;
 
   calificaciones: Calificacion[] = [];
   masOpciones: MasOpc[] = [];
@@ -55,9 +56,9 @@ export class CalificaPage {
               public _cap: CargaArchivoProvider,
               public _basuraProv: BasuraProvider,
               public uiProv: UiProvider,
-              public _usuarioProv: UsuarioProvider) {
+              public _usuarioProv: UsuarioProvider,
+              private platform: Platform) {
 
-    
     this.calificaciones = CALIFICACIONES;
     this.masOpciones = masOpciones;
     this.residuos = RESIDUOS;
@@ -96,9 +97,19 @@ export class CalificaPage {
         residuo.color = "";
       }
     });
+
+    console.log(this.basura);
+
   }
 
   ionViewDidLoad(){
+    if(this.platform.is('corodova')){
+      this.nativo = true;
+      console.log('nativo', this.nativo);
+    } else {
+      this.nativo = false;
+      console.log('nativo', this.nativo);
+    }
     
     this._basuraProv.listarBasuras()
     .subscribe((basuras: any) =>{      
@@ -117,38 +128,57 @@ export class CalificaPage {
     });
   }
 
-  camara(tipo: string){
-    const options: CameraOptions = {
-      quality: 50,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation:true,
-      sourceType: this.camera.PictureSourceType.CAMERA
+  subirImg(tipo: string){
+    // si estamos en el navegador seleccionamos una imagen del ordenador
+    
+    let num = Math.floor( Math.random() * (1-10+1)+10 );
+    if(tipo === 'img') {
+      this.imagenPreview = '/assets/imgs/contenedores/contenedor' + num +'.jpg';
+      this.imagen64 = this.imagenPreview;
+      this._basuraProv.subirImagen(this.imagen64, 'basuras', this.basura._id);
+      this.uiProv.mostrar_toast('Imagen subida');
+    } else {
+      this.imagenPreviewDetalle = '/assets/imgs/contenedores/contenedor' + num +'.jpg';
+      this.imagen64 = this.imagenPreview;
+      this._basuraProv.subirImagen(this.imagen64, 'imgdetalle', this.basura._id);
+      this.uiProv.mostrar_toast('Imagen subida');
     }
 
-    this.camera.getPicture(options).then((imageData) => {
-
-      if(tipo === 'img'){
-      //  this.imagenPreview = 'data:image/jpg;base64,' + imageData;
-        const img = window.Ionic.WebView.convertFileSrc(imageData);
-        this.imagenPreview = img;
-        this.imagen64 = imageData;
-        this.imagenNueva = true;
-        this._basuraProv.subirImagen(this.imagen64, 'basuras', this.basura._id);
-        this.uiProv.mostrar_toast('Imagen subida');
-      } else {
-       // this.imagenPreviewDetalle = 'data:image/jpg;base64,' + imageData;
-        const img = window.Ionic.WebView.convertFileSrc(imageData);
-        this.imagenPreviewDetalle = img;
-        this.imagen64Detalle = imageData;
-        this._basuraProv.subirImagen(this.imagen64Detalle, 'imgdetalle', this.basura._id);
-        this.uiProv.mostrar_toast('Imagen subida');
-      }
+  }
+  camara(tipo: string){
+      // si estamos en el movil sale la cámara
       
-     }, (err) => {
-      console.log("ERROR EN CAMARA", JSON.stringify(err));
-     });
+      const options: CameraOptions = {
+        quality: 50,
+        destinationType: this.camera.DestinationType.FILE_URI,
+        encodingType: this.camera.EncodingType.JPEG,
+        mediaType: this.camera.MediaType.PICTURE,
+        correctOrientation:true,
+        sourceType: this.camera.PictureSourceType.CAMERA
+      }
+  
+      this.camera.getPicture(options).then((imageData) => {
+  
+        if(tipo === 'img'){
+        //  this.imagenPreview = 'data:image/jpg;base64,' + imageData;
+          const img = window.Ionic.WebView.convertFileSrc(imageData);
+          this.imagenPreview = img;
+          this.imagen64 = imageData;
+          this.imagenNueva = true;
+          this._basuraProv.subirImagen(this.imagen64, 'basuras', this.basura._id);
+          this.uiProv.mostrar_toast('Imagen subida');
+        } else {
+          const img = window.Ionic.WebView.convertFileSrc(imageData);
+          this.imagenPreviewDetalle = img;
+          this.imagen64Detalle = imageData;
+          this._basuraProv.subirImagen(imageData, 'imgdetalle', this.basura._id);
+          this.uiProv.mostrar_toast('Imagen subida');
+        }
+        
+       }, (err) => {
+        console.log("ERROR EN CAMARA", JSON.stringify(err));
+       });
+  
   }
 
     obtenerDatosBasura (){
@@ -163,10 +193,8 @@ export class CalificaPage {
         calificacion: this.calificacion,
         observaciones: this.observaciones,
         fecha: fecha,
-        img: this.imagen64,
         residuo: this.residuo,
         imgContenedor: this.basura.imgContenedor,
-        imgDetalle: this.imagen64Detalle,
         estado: this.estado
       }
 
@@ -189,15 +217,18 @@ export class CalificaPage {
         }
       });
 
+      // Crea un registro en historico
+      this._basuraProv.crearHistorico(this.basura)
+                      .subscribe(res => console.log('Historico añadido', res));
+
       // Actualiza la basura
       this._basuraProv.actualizarBasura(this.basura._id, this.obtenerDatosBasura())
                       .subscribe(res => {
-                        console.log(res);
+                        console.log('Basura añadida', res);
                         this.uiProv.alertaConTiempo('Guardado!','La calificación se ha guardado con éxito!', 2000);
                         this.navCtrl.pop();
                       });
-      // Crea un registro en historico
-      this._basuraProv.crearHistorico(this.basura);
+      
     }
   }
 
