@@ -25,7 +25,7 @@ export class EjemplosPage {
                   this.basuras = basura.basuras;
                   console.log(this.basuras);
                 });
-               // this.mostrarBasuras(); 
+                this.mostrarBasuras(); 
   }
 
   mostrarBasuras(){

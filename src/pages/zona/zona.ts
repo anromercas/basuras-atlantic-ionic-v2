@@ -30,7 +30,7 @@ export class ZonaPage {
   }
 
   ionViewDidLoad(){
-    
+
     this._basuraProv.listarBasuras()
     .subscribe((basuras: any) =>{      
       this.basuras = basuras.basuras;
@@ -44,15 +44,6 @@ export class ZonaPage {
 
   irBasura( basura: Basura ){
     this.navCtrl.push( BasuraPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
-  }
-
-  borrarBasura(basura: Basura){
-    this._basuraProv.borrarBasura(basura._id)
-                    .subscribe( resp => {
-                      console.log(resp);
-                      this.uiProv.alertaConTiempo('Basura Borrada', 'La Basura se ha eliminado con éxito');
-                      
-                    });
   }
 
   calificar( basura: Basura ) {

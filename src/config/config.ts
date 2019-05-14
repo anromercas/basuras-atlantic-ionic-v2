@@ -6,4 +6,7 @@
 // export const URL_SERVICIOS = 'http://192.168.0.200:3000';
 
 // URL de heroku donde está la api en producción junto a MLab 
- export const URL_SERVICIOS = 'https://basuras-atlantic.herokuapp.com';
+// export const URL_SERVICIOS = 'https://basuras-atlantic.herokuapp.com';
+
+ // servidor DigitalOcean
+ export const URL_SERVICIOS = 'https://basuras-atlantic.tk';

@@ -5,6 +5,8 @@ import { CalificaPage } from '../califica/califica';
 import { EjemplosPage } from '../ejemplos/ejemplos';
 import { BasuraProvider } from '../../providers/basura/basura';
 import { ImagenModalPage } from '../imagen-modal/imagen-modal';
+import { UsuarioProvider } from '../../providers/usuario/usuario';
+import { UiProvider } from '../../providers/ui/ui';
 
 
 @Component({
@@ -16,23 +18,31 @@ export class BasuraPage {
   basura: Basura;
   basuras: Basura[] = [];
 
+  desde: number = 0;
+  limite: number = 5;
+
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               public _basuraProv: BasuraProvider,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController,
+              public _usuarioProv: UsuarioProvider,
+              public uiProv: UiProvider) {
     this.basura = this.navParams.get("basura");
 
-    this.mostrarBasuras();
+    
+    this.siguientes();
   }
 
-  mostrarBasuras(){
-    this._basuraProv.obtenerHistoricoBasura(this.basura.codigoContenedor)
-                .subscribe( (resp:any) => {
-                  console.log(resp);
-                    this.basuras = resp.historico;
-                });
+  ionViewDidLoad(){
+    this._basuraProv.obtenerBasura(this.basura._id)
+                    .subscribe( (res: any) => {
+                      this.basura = res.basura;
+                      console.log('Basura Actual ', this.basura);
+                    });
+
   }
+  
 
   verEjemplos(){
     this.navCtrl.push( EjemplosPage );
@@ -46,5 +56,24 @@ export class BasuraPage {
     let modal = this.modalCtrl.create(ImagenModalPage, {basura: basura});
 
     modal.present();
+  }
+
+  siguientes(event?) {
+
+    this._basuraProv.obtenerHistoricoBasura(this.basura.codigoContenedor, this.desde, this.limite)
+                .subscribe( (resp:any) => {
+                  console.log(resp);
+                    this.basuras.push( ...resp.historicos );
+                    this.desde += this.limite;
+                    console.log(resp.total - this.limite);
+                    if( event ){
+                      event.complete();
+                      if(resp.historicos.length === 0){
+                        event.state = "disabled";
+                      }
+                    }
+                });
+                      
+
   }
 }

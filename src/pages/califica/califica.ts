@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 // DATA
 import { CALIFICACIONES } from '../../data/data.calificaciones';
@@ -44,7 +44,6 @@ export class CalificaPage {
   colorFondo = "";
   fechaHoy = Date();
   imagenNueva = false;
-  nativo: boolean;
 
   calificaciones: Calificacion[] = [];
   masOpciones: MasOpc[] = [];
@@ -56,8 +55,7 @@ export class CalificaPage {
               public _cap: CargaArchivoProvider,
               public _basuraProv: BasuraProvider,
               public uiProv: UiProvider,
-              public _usuarioProv: UsuarioProvider,
-              private platform: Platform) {
+              public _usuarioProv: UsuarioProvider) {
 
     this.calificaciones = CALIFICACIONES;
     this.masOpciones = masOpciones;
@@ -103,14 +101,7 @@ export class CalificaPage {
   }
 
   ionViewDidLoad(){
-    if(this.platform.is('corodova')){
-      this.nativo = true;
-      console.log('nativo', this.nativo);
-    } else {
-      this.nativo = false;
-      console.log('nativo', this.nativo);
-    }
-    
+        
     this._basuraProv.listarBasuras()
     .subscribe((basuras: any) =>{      
     }, (err) => {
@@ -128,25 +119,7 @@ export class CalificaPage {
     });
   }
 
-  subirImg(tipo: string){
-    // si estamos en el navegador seleccionamos una imagen del ordenador
-    
-    let num = Math.floor( Math.random() * (1-10+1)+10 );
-    if(tipo === 'img') {
-      this.imagenPreview = '/assets/imgs/contenedores/contenedor' + num +'.jpg';
-      this.imagen64 = this.imagenPreview;
-      this._basuraProv.subirImagen(this.imagen64, 'basuras', this.basura._id);
-      this.uiProv.mostrar_toast('Imagen subida');
-    } else {
-      this.imagenPreviewDetalle = '/assets/imgs/contenedores/contenedor' + num +'.jpg';
-      this.imagen64 = this.imagenPreview;
-      this._basuraProv.subirImagen(this.imagen64, 'imgdetalle', this.basura._id);
-      this.uiProv.mostrar_toast('Imagen subida');
-    }
-
-  }
   camara(tipo: string){
-      // si estamos en el movil sale la cámara
       
       const options: CameraOptions = {
         quality: 50,
@@ -183,8 +156,6 @@ export class CalificaPage {
 
     obtenerDatosBasura (){
 
-      let fecha = new Date().toISOString();
-
       let basuraProv: Basura = {
         nombre: this.basura.nombre,
         zona: this.basura.zona,
@@ -192,12 +163,13 @@ export class CalificaPage {
         codigoContenedor: this.basura.codigoContenedor.toUpperCase(),
         calificacion: this.calificacion,
         observaciones: this.observaciones,
-        fecha: fecha,
+        fecha: new Date().toISOString(),
         residuo: this.residuo,
         imgContenedor: this.basura.imgContenedor,
         estado: this.estado
-      }
+      };
 
+      console.log('BasuraProv '+ basuraProv);
     return basuraProv;
 
   }
@@ -216,20 +188,33 @@ export class CalificaPage {
           residuo.seleccionado = false;
         }
       });
-
-      // Crea un registro en historico
-      this._basuraProv.crearHistorico(this.basura)
-                      .subscribe(res => console.log('Historico añadido', res));
-
+    }
+    let basuraProv: Basura = {
+      nombre: this.basura.nombre,
+      zona: this.basura.zona,
+      numeroContenedor: this.basura.numeroContenedor,
+      codigoContenedor: this.basura.codigoContenedor.toUpperCase(),
+      calificacion: this.calificacion,
+      observaciones: this.observaciones,
+      fecha: new Date().toISOString(),
+      residuo: this.residuo,
+      imgContenedor: this.basura.imgContenedor,
+      estado: this.estado
+    };
       // Actualiza la basura
-      this._basuraProv.actualizarBasura(this.basura._id, this.obtenerDatosBasura())
-                      .subscribe(res => {
-                        console.log('Basura añadida', res);
+      this._basuraProv.actualizarBasura(this.basura._id, basuraProv)
+                      .subscribe((res: any) => {
+                        console.log('Basura añadida', res.basura);
                         this.uiProv.alertaConTiempo('Guardado!','La calificación se ha guardado con éxito!', 2000);
                         this.navCtrl.pop();
                       });
+
+      if( this.basura.calificacion ) {
+        // Crea un registro en historico
+        this._basuraProv.crearHistorico(this.basura)
+                        .subscribe(res => console.log('Historico añadido', res));
+      }
       
-    }
   }
 
   calificar(calificacion: Calificacion ) {
@@ -286,6 +271,28 @@ export class CalificaPage {
   reiniciar(){
     
     this.calificacion = 5;
+    this.calificaciones.forEach( calificacion => {
+      if (calificacion.puntos == 5) {
+        calificacion.seleccionado = true;
+        calificacion.color = 'secondary';
+      } else {
+        calificacion.seleccionado = false;
+        calificacion.color = '';
+      }
+    });
+
+
+    this.masOpciones.forEach( opc => {
+      if (opc.nombre == 'Bueno') {
+        opc.seleccionado = true;
+        opc.color = 'secondary';
+        opc.deshabilitado = false;
+      } else {
+        opc.deshabilitado = true;
+        opc.color = '';
+        opc.seleccionado = false;
+      }
+    });
 
     this.residuos.forEach(residuo => {
       if( residuo.seleccionado ){
@@ -306,7 +313,7 @@ export class CalificaPage {
       residuo.seleccionado = true;
       residuo.color = "secondary";
       this.residuo += residuo.nombre + ',';
-    }    
+    }
   }
 
   // elimina del array de los residuos el que si deberían estar es el contenedor elegido

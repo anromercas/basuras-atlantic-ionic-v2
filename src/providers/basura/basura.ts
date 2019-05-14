@@ -69,6 +69,8 @@ export class BasuraProvider {
   // Actualiza una Basura
   actualizarBasura( id: string, basura: Basura ){
 
+    console.log('Actualiza basura provider ', basura);
+
     const headers = new HttpHeaders({
       'token': this.usuarioProviver.token
     });
@@ -116,12 +118,12 @@ export class BasuraProvider {
   }
 
   // Devuelve todos los registros de una basura por su codigo de contenedor único
-  obtenerHistoricoBasura (codigoContenedor: string) {
+  obtenerHistoricoBasura (codigoContenedor: string, desde: number, limite: number) {
 
     const headers = new HttpHeaders({
       'token': this.usuarioProviver.token
     });
-    let url = URL_SERVICIOS + '/historico/' + codigoContenedor; 
+    let url = URL_SERVICIOS + '/historico/' + codigoContenedor + '?desde=' + desde + '&limite=' + limite; 
     return this.http.get( url, {headers})
                     .map( (resp: any) =>{
                         return resp;
