@@ -31,8 +31,12 @@ export class ImagenDetallePipe implements PipeTransform {
         url += '/imgdetalle/' + img;
       break;
 
+      case 'imgLocal':
+        url = img;
+      break;
+
       default:
-      console.log('Tipo de imagen no existe, usuarios, basuras, imgcontenedor, imgdetalle');
+      console.log('Tipo de imagen no existe, usuarios, basuras, imgcontenedor, imgdetalle, imgLocal');
       url += '/basuras/xxx';
     }
       return url;

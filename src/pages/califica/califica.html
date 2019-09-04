@@ -6,6 +6,11 @@
 
 </ion-header>
 <ion-content>
+        <ion-fab right>
+                <button ion-fab (click)="camara('img')" color="secondary">
+                <ion-icon name="camera"></ion-icon>
+            </button>
+            </ion-fab>
     <ion-grid>
         <ion-row>
             <ion-col>
@@ -23,7 +28,7 @@
         <ion-row>
             <ion-col>
                 <ion-list radio-group>
-                    <h2>Calificación</h2>
+                    <h2>Calidad Segregación</h2>
                     <ion-item *ngFor="let calificacion of calificaciones" [color]="calificacion.color">
                         <ion-label>{{ calificacion.nombre }}</ion-label>
                         <ion-radio [value]="calificacion.puntos" (ionSelect)="calificar(calificacion)" [checked]="calificacion.seleccionado"></ion-radio>
@@ -32,7 +37,7 @@
             </ion-col>
             <ion-col>
                 <ion-list radio-group>
-                    <h2>Estado</h2>
+                    <h2>Estado Contenedor</h2>
                     <ion-item *ngFor="let opcion of masOpciones" [color]="opcion.color">
                         <ion-label>{{ opcion.nombre }}</ion-label>
                         <ion-checkbox (ionChange)="cambiarEstado(opcion)" [disabled]="opcion.deshabilitado" [(ngModel)]="opcion.seleccionado" [checked]="opcion.seleccionado"></ion-checkbox>
@@ -75,10 +80,6 @@
         </button>
 
 
-        <ion-fab right>
-            <button ion-fab (click)="camara('img')" color="secondary">
-            <ion-icon name="camera"></ion-icon>
-        </button>
-        </ion-fab>
+        
     </ion-grid>
 </ion-content>

@@ -60,10 +60,6 @@ export class BasuraProvider {
     });
     let url = URL_SERVICIOS + '/basura/' + id;
     return this.http.get( url, {headers})
-                    /* .map( (resp: any) => {
-                      console.log(resp);
-                      return resp;
-                    }); */
   }
 
   // Actualiza una Basura
@@ -76,10 +72,6 @@ export class BasuraProvider {
     });
     let url = URL_SERVICIOS + '/basura/' + id;
     return this.http.put( url, basura, {headers} )
-                    /* .map( (resp: any) => {
-                      console.log(resp);
-                      return resp;
-                    }); */
   }
  
   // Lista todas las Basuras

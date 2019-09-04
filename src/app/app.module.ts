@@ -23,7 +23,6 @@ import {  HomePage,
   
   // servicios
   import { UsuarioProvider } from '../providers/usuario/usuario';
-  import { CalificacionProvider } from '../providers/calificacion/calificacion';
   import { BasuraProvider } from '../providers/basura/basura';
   import { CargaArchivoProvider } from '../providers/carga-archivo/carga-archivo';
   
@@ -90,7 +89,6 @@ registerLocaleData(localeEs);
   //  { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },
     // mis providers
     UsuarioProvider,
-    CalificacionProvider,
     BasuraProvider,
     CargaArchivoProvider,
     UiProvider,

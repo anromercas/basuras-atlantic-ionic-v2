@@ -13,32 +13,26 @@
             <h1> <b> <u> Contenedores Sucios </u>  </b> </h1>
         </ion-list-header>
         <ion-item *ngFor="let basura of basurasDeEjemplo">
-            <ion-thumbnail item-start class="thumbnailGrande">
-                <img [src]="basura.img | imagenDetalle">
+            <ion-thumbnail item-start (click)="verImg(basura)">
+                <img [src]="basura.img">
             </ion-thumbnail>
-            <h2><b> {{ basura.nombre }} </b></h2>
-            <h2> {{ basura.zona }} </h2>
-            <h3> Calificación: {{ basura.calificacion }} </h3>
-            <h4> Residuo: {{ basura.residuo }} % </h4>
-            <h4 *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
-            <p *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
-            <p> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
+            <h2 text-wrap><b> {{ basura.nombre }} </b></h2>
+            <h2 text-wrap> {{ basura.zona }} </h2>
+            <h3 text-wrap> Calificación: {{ basura.calificacion }} </h3>
+            <h4 text-wrap> Estado: {{ basura.estado }} </h4>
         </ion-item>
 
         <ion-list-header text-center>
             <h1> <b> <u> Contenedores Rotos </u>  </b> </h1>
         </ion-list-header>
         <ion-item *ngFor="let basura of basurasDeEjemplo2">
-            <ion-thumbnail item-start class="thumbnailGrande">
-                <img [src]="basura.img | imagenDetalle">
+            <ion-thumbnail item-start (click)="verImg(basura)">
+                <img [src]="basura.img">
             </ion-thumbnail>
-            <h2><b> {{ basura.nombre }} </b></h2>
-            <h2> {{ basura.zona }} </h2>
-            <h3> Calificación: {{ basura.calificacion }} </h3>
-            <h4> Residuo: {{ basura.residuo }} % </h4>
-            <h4 *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
-            <p *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
-            <p> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
+            <h2 text-wrap><b> {{ basura.nombre }} </b></h2>
+            <h2 text-wrap> {{ basura.zona }} </h2>
+            <h3 text-wrap> Calificación: {{ basura.calificacion }} </h3>
+            <h4 text-wrap> Estado: {{ basura.estado }} </h4>
         </ion-item>
 
 
@@ -46,16 +40,13 @@
             <h1> <b> <u> Contenedores llenos </u>  </b> </h1>
         </ion-list-header>
         <ion-item *ngFor="let basura of basurasDeEjemplo3">
-            <ion-thumbnail item-start class="thumbnailGrande">
-                <img [src]="basura.img | imagenDetalle">
+            <ion-thumbnail item-start>
+                <img [src]="basura.img" (click)="verImg(basura)">
             </ion-thumbnail>
-            <h2><b> {{ basura.nombre }} </b></h2>
-            <h2> {{ basura.zona }} </h2>
-            <h3> Calificación: {{ basura.calificacion }} </h3>
-            <h4> Residuo: {{ basura.residuo }} % </h4>
-            <h4 *ngIf="basura.estado"> Estado: {{ basura.estado }} </h4>
-            <p *ngIf="basura.observaciones"> Observaciones: {{ basura.observaciones }} </p>
-            <p> Calificación hecha: {{ basura.fecha | date:"medium" }} </p>
+            <h2 text-wrap><b> {{ basura.nombre }} </b></h2>
+            <h2 text-wrap> {{ basura.zona }} </h2>
+            <h3 text-wrap> Calificación: {{ basura.calificacion }} </h3>
+            <h4 text-wrap> Estado: {{ basura.estado }} </h4>
         </ion-item>
     </ion-list>
 

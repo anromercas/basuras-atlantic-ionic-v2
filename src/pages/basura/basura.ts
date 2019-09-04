@@ -38,7 +38,6 @@ export class BasuraPage {
     this._basuraProv.obtenerBasura(this.basura._id)
                     .subscribe( (res: any) => {
                       this.basura = res.basura;
-                      console.log('Basura Actual ', this.basura);
                     });
 
   }
@@ -65,7 +64,6 @@ export class BasuraPage {
                   console.log(resp);
                     this.basuras.push( ...resp.historicos );
                     this.desde += this.limite;
-                    console.log(resp.total - this.limite);
                     if( event ){
                       event.complete();
                       if(resp.historicos.length === 0){

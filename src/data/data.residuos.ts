@@ -125,4 +125,10 @@ export const RESIDUOS = [
         seleccionado: false,
         color: "",
       },
+      {
+        nombre: 'Otros (Rellene Observaciones)',
+        img: './assets/residuos/basura.png',
+        seleccionado: false,
+        color: "",
+      },
 ];

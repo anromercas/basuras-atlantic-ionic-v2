@@ -9,10 +9,19 @@ import { Basura } from '../../interfaces/basura.interface';
 export class ImagenModalPage {
 
   basura: Basura;
+  tipo: string;
 
   constructor(public viewCtrl: ViewController,
               public navParams: NavParams) {
         this.basura = this.navParams.get('basura');
+
+        if ( this.basura.img.includes("assets") ) {
+          this.tipo = 'imgLocal'
+        } else {
+          this.tipo = 'basuras'
+        }
+
+        console.log(this.tipo);
   }
 
   cerrarModal(){

@@ -68,15 +68,8 @@ export class CalificaPage {
     this.residuo = '';
 
     this.masOpciones.forEach( opc => {
-      if (opc.nombre == 'Bueno') {
-        opc.seleccionado = true;
-        opc.color = 'secondary';
-        opc.deshabilitado = false;
-      } else {
-        opc.deshabilitado = true;
         opc.color = '';
         opc.seleccionado = false;
-      }
     });
 
     this.calificaciones.forEach( calificacion => {
@@ -178,10 +171,11 @@ export class CalificaPage {
     if( this.calificacion < 5 && !this.residuo ) {
       console.log('Hay que seleccionar residuos');
       this.uiProv.alertaInformativa('Error','Debe seleccionar los resíduos que no deberían de estar en este contenedor');
-
-    } else if( this.calificacion < 5 && this.estado == '') {
+      return;
+    } else if( this.estado == '') {
       console.log('el estado es obligatorio');
-      this.uiProv.alertaInformativa('Error','El estado es obligatorio, al ser una calificación menor a 5');
+      this.uiProv.alertaInformativa('Error','El estado del contenedor es obligatorio');
+      return;
     } else {
       this.residuos.forEach(residuo => {
         if( residuo.seleccionado ){
@@ -205,15 +199,15 @@ export class CalificaPage {
       this._basuraProv.actualizarBasura(this.basura._id, basuraProv)
                       .subscribe((res: any) => {
                         console.log('Basura añadida', res.basura);
+                        this.basura = res.basura;
+
+                        this._basuraProv.crearHistorico(res.basura)
+                        // Crea un registro en historico
+                        .subscribe(res => console.log('Historico añadido', res));
+
                         this.uiProv.alertaConTiempo('Guardado!','La calificación se ha guardado con éxito!', 2000);
                         this.navCtrl.pop();
                       });
-
-      if( this.basura.calificacion ) {
-        // Crea un registro en historico
-        this._basuraProv.crearHistorico(this.basura)
-                        .subscribe(res => console.log('Historico añadido', res));
-      }
       
   }
 
@@ -229,32 +223,11 @@ export class CalificaPage {
     calificacion.seleccionado = true;
     
     if( calificacion.puntos < 5 ){
-      this.uiProv.alertaConTiempo('Hay más opciones','La calificación es menor a 5, debe seleccionar un ESTADO y un Resíduo', 3000);
+      this.uiProv.alertaConTiempo('Hay más opciones','La calificación es menor a 5, debe seleccionar un Resíduo', 3000);
       this.calificacion = calificacion.puntos;
 
-      this.masOpciones.forEach( opc => {
-        if (opc.nombre == 'Bueno') {
-          opc.deshabilitado = true;
-          opc.seleccionado = false;
-          opc.color = '';
-        } else {
-          opc.deshabilitado = false;
-        }
-      });
     } else {
       this.calificacion = calificacion.puntos;
-
-      this.masOpciones.forEach( opc => {
-        if (opc.nombre == 'Bueno') {
-          opc.deshabilitado = false;
-          opc.seleccionado = true;
-          opc.color = 'secondary';
-        } else {
-          opc.deshabilitado = true;
-          opc.seleccionado = false;
-          opc.color = '';
-        }
-      });
     }
   }
 
@@ -269,6 +242,8 @@ export class CalificaPage {
   }
 
   reiniciar(){
+
+    this.observaciones = '';
     
     this.calificacion = 5;
     this.calificaciones.forEach( calificacion => {
@@ -281,18 +256,11 @@ export class CalificaPage {
       }
     });
 
-
     this.masOpciones.forEach( opc => {
-      if (opc.nombre == 'Bueno') {
-        opc.seleccionado = true;
-        opc.color = 'secondary';
-        opc.deshabilitado = false;
-      } else {
-        opc.deshabilitado = true;
         opc.color = '';
         opc.seleccionado = false;
-      }
     });
+    this.estado = '';
 
     this.residuos.forEach(residuo => {
       if( residuo.seleccionado ){
@@ -301,6 +269,7 @@ export class CalificaPage {
       }
     });
     this.residuo = "";
+
   }
 
   seleccionar( residuo: Residuos ) {

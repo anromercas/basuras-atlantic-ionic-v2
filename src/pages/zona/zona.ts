@@ -19,6 +19,8 @@ export class ZonaPage {
   basuras: Basura[] = [];
   basurasDeZona: Basura[] = [];
   historicoBasuras: Basura[] = [];
+  admin: boolean = false;
+
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
@@ -26,6 +28,12 @@ export class ZonaPage {
               public _basuraProv:BasuraProvider,              
               public uiProv: UiProvider) {
     this.zona = this.navParams.get("zona");
+
+    if(_usuarioProv.role == 'ADMIN_ROLE'){
+      this.admin = true;
+    } else {
+      this.admin = false;
+    }
      
   }
 
@@ -44,6 +52,14 @@ export class ZonaPage {
 
   irBasura( basura: Basura ){
     this.navCtrl.push( BasuraPage, { 'basura': basura }, {animate: true, animation: 'ios-transition'} );
+  }
+
+  borrarBasura( id: string ) {
+    this._basuraProv.borrarBasura(id)
+                    .subscribe( res => {
+                        console.log(res);
+                        this.uiProv.alertaConTiempo('Basura Borrada', 'La basura se ha borrado');
+                    }); 
   }
 
   calificar( basura: Basura ) {
